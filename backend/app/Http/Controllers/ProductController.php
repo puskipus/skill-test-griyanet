@@ -2,36 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    // public function register()
-    // {
-    //     $validator = Validator::make(request()->all(), [
-    //         'name' => 'required',
-    //         'nip' => 'required|unique:users',
-    //         'password' => 'required',
+    public function create()
+    {
+        $validator = Validator::make(request()->all(), [
+            'namaPaket' => 'required|unique:products',
+            'kecepatanInternet' => 'required',
+            'fitur' => 'required',
+            'harga' => 'required',
 
-    //     ]);
+        ]);
 
-    //     if ($validator->fails()) {
-    //         return response()->json($validator->messages());
-    //     }
+        if ($validator->fails()) {
+            return response()->json($validator->messages());
+        }
 
-    //     $user = User::create([
-    //         'name' => request('name'),
-    //         'nip' => request('nip'),
-    //         'password' => Hash::make(request('password')),
-    //         'role' => "sales",
+        $product = Product::create([
+            'namaPaket' => request('namaPaket'),
+            'kecepatanInternet' =>  request('kecepatanInternet'),
+            'fitur' =>  request('fitur'),
+            'harga' =>  request('harga'),
 
-    //     ]);
+        ]);
 
-    //     if ($user) {
-    //         return response()->json(['message' => 'Register Success'], 200);
-    //     } else {
-    //         return response()->json(['message' => 'Register Failed'], 404);
-    //     }
-    // }
+        if ($product) {
+            return response()->json(['message' => 'Create Product Success'], 200);
+        } else {
+            return response()->json(['message' => 'Create Product Failed'], 404);
+        }
+    }
 }
