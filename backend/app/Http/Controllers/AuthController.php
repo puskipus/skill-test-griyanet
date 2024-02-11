@@ -57,7 +57,7 @@ class AuthController extends Controller
         $credentials = request(['nip', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'NIP atau Password Salah'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -107,7 +107,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60 * 24
         ]);
     }
 }
