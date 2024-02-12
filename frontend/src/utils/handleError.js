@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 const handleError = (error) => {
-  if (error.response.data.msg === "jwt expired") {
+  if (error.response.data.error === "Unauthorized") {
     toast.info("Sesi Anda telah habis, silakan login ulang", {
       position: "top-right",
       autoClose: 5000,
@@ -11,12 +11,6 @@ const handleError = (error) => {
       draggable: true,
       progress: undefined,
     });
-
-    if (JSON.parse(localStorage.getItem("role")) === "mahasiswa") {
-      window.location.href = "/";
-    } else {
-      window.location.href = "/admin";
-    }
     localStorage.clear();
   }
 

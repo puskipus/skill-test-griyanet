@@ -48,4 +48,16 @@ class CustomerController extends Controller
             return response()->json(['message' => 'Create Customer Failed'], 404);
         }
     }
+
+    public function getAll()
+    {
+
+        $customer = Customer::select("nama", "noHP", "alamat", "paket", "ktp", "fotoBangunan")->get();
+
+        if ($customer) {
+            return response()->json($customer, 200);
+        } else {
+            return response()->json(['message' => 'Get Customer Failed'], 404);
+        }
+    }
 }

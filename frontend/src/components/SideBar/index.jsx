@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SideBarAdmin from "./SideBarAdmin";
 import SideBarSales from "./SideBarSales";
+import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const [role, setRole] = useState("");
@@ -20,9 +21,14 @@ export default function Sidebar() {
           <ul className="space-y-2 font-medium">
             {/* dashboard */}
             <li>
-              <a
+              <NavLink
+                to={"/dashboard"}
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group bg-slate-300"
+                    : "flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                }
               >
                 <svg
                   className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -35,7 +41,7 @@ export default function Sidebar() {
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
                 <span className="ms-3">Dashboard</span>
-              </a>
+              </NavLink>
             </li>
 
             {role === "admin" ? <SideBarAdmin /> : <SideBarSales />}

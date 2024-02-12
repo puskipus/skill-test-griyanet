@@ -71,8 +71,6 @@ export default function CustomerAdd() {
     }
   };
 
-  console.log(form);
-
   const fetchPaket = async () => {
     try {
       const res = await getData("/product");

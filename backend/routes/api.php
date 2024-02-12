@@ -36,3 +36,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'product'], function ($router
 Route::group(['middleware' => ['api', 'sales'], 'prefix' => 'customer'], function ($router) {
     Route::post('/', [CustomerController::class, 'create']);
 });
+
+Route::group(['middleware' => ['api', 'admin'], 'prefix' => 'customer'], function ($router) {
+    Route::get('/all', [CustomerController::class, 'getAll']);
+});

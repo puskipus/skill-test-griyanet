@@ -11,6 +11,7 @@ import Forbidden from "../pages/Forbidden";
 import GuardRoleRoute from "../components/GuardRoleRoute";
 import Customer from "../pages/Customer/Customer";
 import CustomerAdd from "../pages/Customer/CustomerAdd";
+import CustomerAll from "../pages/Customer/CustomerAll";
 
 export function AppRoutes() {
   return (
@@ -94,6 +95,17 @@ export function AppRoutes() {
           <GuardOnlyRoute>
             <GuardRoleRoute role={"sales"}>
               <CustomerAdd />
+            </GuardRoleRoute>
+          </GuardOnlyRoute>
+        }
+      />
+
+      <Route
+        path="/customer/all"
+        element={
+          <GuardOnlyRoute>
+            <GuardRoleRoute role={"admin"}>
+              <CustomerAll />
             </GuardRoleRoute>
           </GuardOnlyRoute>
         }
