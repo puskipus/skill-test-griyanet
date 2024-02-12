@@ -28,3 +28,7 @@ Route::group(['middleware' => ['api', 'admin'], 'prefix' => 'product'], function
     Route::post('create', [ProductController::class, 'create']);
 });
 
+Route::group(['middleware' => ['api'], 'prefix' => 'product'], function ($router) {
+    Route::get('/', [ProductController::class, 'get']);
+});
+

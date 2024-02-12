@@ -7,6 +7,10 @@ import AccountSalesAdd from "../pages/AccountSales/AccountSalesAdd";
 import AccountSales from "../pages/AccountSales/AccountSales";
 import Products from "../pages/Products/Products";
 import ProductsAdd from "../pages/Products/ProductsAdd";
+import Forbidden from "../pages/Forbidden";
+import GuardRoleRoute from "../components/GuardRoleRoute";
+import Customer from "../pages/Customer/Customer";
+import CustomerAdd from "../pages/Customer/CustomerAdd";
 
 export function AppRoutes() {
   return (
@@ -33,7 +37,9 @@ export function AppRoutes() {
         path="/account-sales"
         element={
           <GuardOnlyRoute>
-            <AccountSales />
+            <GuardRoleRoute role={"admin"}>
+              <AccountSales />
+            </GuardRoleRoute>
           </GuardOnlyRoute>
         }
       />
@@ -42,7 +48,9 @@ export function AppRoutes() {
         path="/account-sales/add"
         element={
           <GuardOnlyRoute>
-            <AccountSalesAdd />
+            <GuardRoleRoute role={"admin"}>
+              <AccountSalesAdd />
+            </GuardRoleRoute>
           </GuardOnlyRoute>
         }
       />
@@ -51,7 +59,9 @@ export function AppRoutes() {
         path="/products"
         element={
           <GuardOnlyRoute>
-            <Products />
+            <GuardRoleRoute role={"admin"}>
+              <Products />
+            </GuardRoleRoute>
           </GuardOnlyRoute>
         }
       />
@@ -60,10 +70,36 @@ export function AppRoutes() {
         path="/products/add"
         element={
           <GuardOnlyRoute>
-            <ProductsAdd />
+            <GuardRoleRoute role={"admin"}>
+              <ProductsAdd />
+            </GuardRoleRoute>
           </GuardOnlyRoute>
         }
       />
+
+      <Route
+        path="/customer"
+        element={
+          <GuardOnlyRoute>
+            <GuardRoleRoute role={"sales"}>
+              <Customer />
+            </GuardRoleRoute>
+          </GuardOnlyRoute>
+        }
+      />
+
+      <Route
+        path="/customer/add"
+        element={
+          <GuardOnlyRoute>
+            <GuardRoleRoute role={"sales"}>
+              <CustomerAdd />
+            </GuardRoleRoute>
+          </GuardOnlyRoute>
+        }
+      />
+
+      <Route path="/forbidden" element={<Forbidden />} />
     </Routes>
   );
 }

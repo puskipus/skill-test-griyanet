@@ -36,4 +36,16 @@ class ProductController extends Controller
             return response()->json(['message' => 'Create Product Failed'], 404);
         }
     }
+
+    public function get()
+    {
+
+        $product = Product::get();
+
+        if ($product) {
+            return response()->json($product, 200);
+        } else {
+            return response()->json(['message' => 'Get Product Failed'], 404);
+        }
+    }
 }
