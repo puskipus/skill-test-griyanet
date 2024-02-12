@@ -35,27 +35,15 @@ export default function CustomerAdd() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.password !== form.confirm_password) {
-      return toast.error("Password dan confirm password tidak sama", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-
     const result = await Swal.fire({
-      title: "Anda yakin membuat akun ini?",
+      title: "Anda yakin membuat customer ini?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes",
       cancelButtonText: "No",
     });
     if (result.isConfirmed) {
-      const res = await postData(`/auth/register`, form);
+      const res = await postData(`/customer`, form, true);
 
       if (res?.data?.message) {
         toast.success(res?.data?.message, {
@@ -68,7 +56,7 @@ export default function CustomerAdd() {
           progress: undefined,
         });
 
-        navigate("/account-sales");
+        navigate("/customer");
       } else {
         toast.error(res?.response?.data?.error, {
           position: "top-right",

@@ -17,6 +17,7 @@ function FileInput({ id, name, label, accept, helpText, onChange }) {
         type="file"
         accept={accept}
         onChange={onChange}
+        required={true}
       />
       {helpText && (
         <p
