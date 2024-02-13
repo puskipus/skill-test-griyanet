@@ -1,6 +1,6 @@
 import React from "react";
 
-function FileInput({ id, name, label, accept, helpText, onChange }) {
+function FileInput({ id, name, label, accept, helpText, onChange, required }) {
   return (
     <div className="mb-5">
       <label
@@ -17,7 +17,7 @@ function FileInput({ id, name, label, accept, helpText, onChange }) {
         type="file"
         accept={accept}
         onChange={onChange}
-        required={true}
+        required={required}
       />
       {helpText && (
         <p

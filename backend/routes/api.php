@@ -36,7 +36,9 @@ Route::group(['middleware' => ['api'], 'prefix' => 'product'], function ($router
 Route::group(['middleware' => ['api', 'sales'], 'prefix' => 'customer'], function ($router) {
     Route::post('/', [CustomerController::class, 'create']);
     Route::get('/', [CustomerController::class, 'getByUserID']);
+    Route::get('/{id}', [CustomerController::class, 'getByID']);
     Route::delete('/{id}', [CustomerController::class, 'destroy']);
+    Route::post('/update/{id}', [CustomerController::class, 'update']);
 });
 
 Route::group(['middleware' => ['api', 'admin'], 'prefix' => 'customer'], function ($router) {

@@ -5,6 +5,7 @@ import AddButton from "../../components/Button/AddButton";
 import { deleteData, getData } from "../../utils/fetch";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function Customer() {
   const [customers, setCustomers] = useState([]);
@@ -82,29 +83,29 @@ export default function Customer() {
           </div>
 
           {/* table */}
-          <div class="mt-10 relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <div className="mt-10 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     Nama
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     No HP
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     Alamat
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     Paket
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     KTP
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     Foto Bangunan
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3 col-span-2 text-center">
                     Action
                   </th>
                 </tr>
@@ -136,6 +137,9 @@ export default function Customer() {
                       className="px-6 py-4 text-red-600 font-bold cursor-pointer hover:underline"
                     >
                       Delete
+                    </td>
+                    <td className="px-6 py-4 text-green-600 font-bold cursor-pointer hover:underline">
+                      <Link to={`/customer/${row.id}`}>Update</Link>
                     </td>
                   </tr>
                 ))}
