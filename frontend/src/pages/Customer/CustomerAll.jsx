@@ -17,26 +17,6 @@ export default function CustomerAll() {
     }
   };
 
-  // const handleDownloadImage = async (fileName) => {
-  //   const imageData = await fetchImageData(fileName);
-  //   const blob = new Blob([imageData]);
-  //   const url = window.URL.createObjectURL(blob);
-  //   const a = document.createElement("a");
-  //   a.href = url;
-  //   a.download = fileName;
-  //   a.click();
-  //   window.URL.revokeObjectURL(url);
-  // };
-
-  // const downloadPDF = async (fileName) => {
-  //   // Example implementation using fetch API
-  //   const response = await fetch(`http://127.0.0.1:8000/images/${fileName}`);
-  //   if (!response.ok) {
-  //     throw new Error("Failed to fetch image data");
-  //   }
-  //   return await response.blob();
-  // };
-
   const fetchPDF = async () => {
     try {
       const res = await getData("/customer/all/convert", null, "blob");

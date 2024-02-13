@@ -35,6 +35,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'product'], function ($router
 
 Route::group(['middleware' => ['api', 'sales'], 'prefix' => 'customer'], function ($router) {
     Route::post('/', [CustomerController::class, 'create']);
+    Route::get('/', [CustomerController::class, 'getByUserID']);
 });
 
 Route::group(['middleware' => ['api', 'admin'], 'prefix' => 'customer'], function ($router) {
