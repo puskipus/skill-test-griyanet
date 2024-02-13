@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
@@ -59,5 +61,47 @@ class CustomerController extends Controller
         } else {
             return response()->json(['message' => 'Get Customer Failed'], 404);
         }
+    }
+
+    public function getAllConvert()
+    {
+
+        $customers = Customer::with(['product' => function ($query) {
+            $query->select('namaPaket', 'harga');
+        }])->select("nama", "noHP", "alamat", 'paket')->get();
+
+        $dataArray = [];
+        foreach ($customers as $customer) {
+            $dataArray[] = [
+                'Nama' => $customer->nama,
+                'No. HP' => $customer->noHP,
+                'Alamat' => $customer->alamat,
+                'Paket' => $customer->paket,
+                'Nama Paket' => $customer->product->namaPaket,
+                'Harga' => $customer->product->harga,
+            ];
+        }
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+
+        $pdf = new Dompdf($options);
+        $pdf->loadHtml(view('pdf.customer', ['customers' => $dataArray])->render());
+        $pdf->setPaper('A4', 'landscape');
+        $pdf->render();
+        // $pdf->stream('customers.pdf');
+
+        $pdfContent = $pdf->output();
+        return Response::make($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="customers.pdf"',
+        ]);
+
+        // if ($customer) {
+        //     return response()->json($customer, 200);
+        // } else {
+        //     return response()->json(['message' => 'Get Customer Failed'], 404);
+        // }
     }
 }

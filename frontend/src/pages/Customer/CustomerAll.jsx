@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/SideBar";
-import AddButton from "../../components/Button/AddButton";
 import { getData } from "../../utils/fetch";
-import Table from "../../components/Table/Index";
+import DownloadButton from "../../components/Button/DownloadButton";
+import { saveAs } from "file-saver";
 
 export default function CustomerAll() {
   const [customers, setCustomers] = useState([]);
@@ -17,38 +17,40 @@ export default function CustomerAll() {
     }
   };
 
-  const handleDownloadImage = async (fileName) => {
-    const imageData = await fetchImageData(fileName);
-    const blob = new Blob([imageData]);
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
+  // const handleDownloadImage = async (fileName) => {
+  //   const imageData = await fetchImageData(fileName);
+  //   const blob = new Blob([imageData]);
+  //   const url = window.URL.createObjectURL(blob);
+  //   const a = document.createElement("a");
+  //   a.href = url;
+  //   a.download = fileName;
+  //   a.click();
+  //   window.URL.revokeObjectURL(url);
+  // };
 
-  const fetchImageData = async (fileName) => {
-    // Example implementation using fetch API
-    const response = await fetch(`http://127.0.0.1:8000/images/${fileName}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch image data");
+  // const downloadPDF = async (fileName) => {
+  //   // Example implementation using fetch API
+  //   const response = await fetch(`http://127.0.0.1:8000/images/${fileName}`);
+  //   if (!response.ok) {
+  //     throw new Error("Failed to fetch image data");
+  //   }
+  //   return await response.blob();
+  // };
+
+  const fetchPDF = async () => {
+    try {
+      const res = await getData("/customer/all/convert", null, "blob");
+
+      const blobData = new Blob([res.data], { type: "application/pdf" });
+      saveAs(blobData, "customers.pdf");
+    } catch (error) {
+      console.error("Error fetching PDF:", error);
     }
-    return await response.blob();
   };
 
   useEffect(() => {
     fetchCustomers();
   }, []);
-
-  // const rows = customers.map((item, index) => [
-  //   item.nama,
-  //   item.noHP,
-  //   item.alamat,
-  //   item.paket,
-  //   item.ktp,
-  //   item.fotoBangunan,
-  // ]);
 
   return (
     <div>
@@ -58,10 +60,12 @@ export default function CustomerAll() {
 
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-          <h1 className="text-3xl">All Customer</h1>
+          <div className="flex justify-between">
+            <h1 className="text-3xl">All Customer</h1>
+            <DownloadButton onCLick={() => fetchPDF()} />
+          </div>
 
           {/* table */}
-
           <div class="mt-10 relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

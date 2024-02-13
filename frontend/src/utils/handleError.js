@@ -12,6 +12,7 @@ const handleError = (error) => {
       progress: undefined,
     });
     localStorage.clear();
+    window.location.replace("/");
   }
 
   return error;

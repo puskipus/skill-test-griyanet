@@ -39,4 +39,5 @@ Route::group(['middleware' => ['api', 'sales'], 'prefix' => 'customer'], functio
 
 Route::group(['middleware' => ['api', 'admin'], 'prefix' => 'customer'], function ($router) {
     Route::get('/all', [CustomerController::class, 'getAll']);
+    Route::get('/all/convert', [CustomerController::class, 'getAllConvert']);
 });

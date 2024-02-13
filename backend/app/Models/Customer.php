@@ -17,4 +17,9 @@ class Customer extends Model
         'ktp',
         'fotoBangunan',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'paket', 'namaPaket');
+    }
 }

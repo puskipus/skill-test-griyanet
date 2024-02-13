@@ -2,7 +2,7 @@ import axios from "axios";
 import handleError from "./handleError";
 import { config } from "../configs";
 
-export async function getData(url, params) {
+export async function getData(url, params, responseType) {
   const token = localStorage.getItem("token")
     ? JSON.parse(localStorage.getItem("token"))
     : {};
@@ -10,7 +10,9 @@ export async function getData(url, params) {
   try {
     return await axios.get(`${config.api_host_dev}${url}`, {
       params,
+      responseType: responseType || "",
       headers: {
+        "Access-Control-Allow-Origin": "*",
         Authorization: `Bearer ${token}`,
       },
     });

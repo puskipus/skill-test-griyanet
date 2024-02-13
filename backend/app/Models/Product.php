@@ -15,4 +15,9 @@ class Product extends Model
         'fitur',
         'harga',
     ];
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class, 'namaPaket', 'paket');
+    }
 }
