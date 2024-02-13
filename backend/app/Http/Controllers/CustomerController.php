@@ -8,6 +8,7 @@ use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Claims\Custom;
 
 class CustomerController extends Controller
 {
@@ -68,7 +69,7 @@ class CustomerController extends Controller
     public function getByUserID()
     {
 
-        $customer = Customer::where('salesID', auth()->id())->select("nama", "noHP", "alamat", "paket", "ktp", "fotoBangunan")->get();
+        $customer = Customer::where('salesID', auth()->id())->select("id", "nama", "noHP", "alamat", "paket", "ktp", "fotoBangunan")->get();
 
         if ($customer) {
             return response()->json($customer, 200);
@@ -111,4 +112,16 @@ class CustomerController extends Controller
             'Content-Disposition' => 'attachment; filename="customers.pdf"',
         ]);
     }
+
+    public function destroy($id)
+{
+    $customer = Customer::find($id);
+    if (!$customer || $customer->id  != auth()->id()) {
+        return response()->json(['message' => 'customer not found'], 404);
+    }
+
+    $customer->delete();
+
+    return response()->json(['message' => 'customer deleted successfully']);
+}
 }

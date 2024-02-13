@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/SideBar";
 import AddButton from "../../components/Button/AddButton";
-import { getData } from "../../utils/fetch";
+import { deleteData, getData } from "../../utils/fetch";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export default function Customer() {
   const [customers, setCustomers] = useState([]);
@@ -13,6 +15,52 @@ export default function Customer() {
       setCustomers(res.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleDelete = async (data) => {
+    const result = await Swal.fire({
+      title: "Anda yakin menghapus customer ini?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    });
+
+    // Check the result of the confirmation dialog
+    if (result.isConfirmed) {
+      try {
+        const res = await deleteData(`/customer/${data}`);
+
+        if (res?.data) {
+          toast.success("Berhasil Hapus penugasan", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+
+          fetchCustomers();
+        } else {
+          toast.error(
+            res?.response?.data?.message || "Terjadi kesalahan pada server",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            }
+          );
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
     }
   };
 
@@ -56,6 +104,9 @@ export default function Customer() {
                   <th scope="col" class="px-6 py-3">
                     Foto Bangunan
                   </th>
+                  <th scope="col" class="px-6 py-3">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -68,22 +119,23 @@ export default function Customer() {
                     <td className="px-6 py-4">{row.noHP}</td>
                     <td className="px-6 py-4">{row.alamat}</td>
                     <td className="px-6 py-4">{row.paket}</td>
-                    <td
-                      className="px-6 py-4 hover:underline cursor-pointer"
-                      // onClick={() => handleDownloadImage(row.ktp)}
-                    >
-                      {/* {row.ktp} */}
+                    <td className="px-6 py-4 hover:underline cursor-pointer">
                       <img
                         src={`http://127.0.0.1:8000/images/${row.ktp}`}
                         width={"100rem"}
                       />
                     </td>
                     <td className="px-6 py-4 hover:underline cursor-pointer">
-                      {/* {row.fotoBangunan} */}
                       <img
                         src={`http://127.0.0.1:8000/images/${row.fotoBangunan}`}
                         width={"100rem"}
                       />
+                    </td>
+                    <td
+                      onClick={() => handleDelete(row.id)}
+                      className="px-6 py-4 text-red-600 font-bold cursor-pointer hover:underline"
+                    >
+                      Delete
                     </td>
                   </tr>
                 ))}
