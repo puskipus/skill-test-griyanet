@@ -16,10 +16,16 @@ class Customer extends Model
         'paket',
         'ktp',
         'fotoBangunan',
+        'salesID',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class, 'paket', 'namaPaket');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'salesID', 'id');
     }
 }

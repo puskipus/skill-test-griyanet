@@ -34,7 +34,7 @@ export function AppRoutes() {
         }
       />
 
-      <Route
+      {/* <Route
         path="/account-sales"
         element={
           <GuardOnlyRoute>
@@ -43,10 +43,21 @@ export function AppRoutes() {
             </GuardRoleRoute>
           </GuardOnlyRoute>
         }
-      />
+      /> */}
+
+      {/* <Route
+        path="/account-sales/add"
+        element={
+          <GuardOnlyRoute>
+            <GuardRoleRoute role={"admin"}>
+              <AccountSalesAdd />
+            </GuardRoleRoute>
+          </GuardOnlyRoute>
+        }
+      /> */}
 
       <Route
-        path="/account-sales/add"
+        path="/account-sales"
         element={
           <GuardOnlyRoute>
             <GuardRoleRoute role={"admin"}>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('paket');
             $table->string('ktp');
             $table->string('fotoBangunan');
+            $table->integer('salesID');
             $table->timestamps();
         });
     }

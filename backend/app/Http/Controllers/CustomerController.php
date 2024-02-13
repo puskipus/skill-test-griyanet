@@ -42,7 +42,9 @@ class CustomerController extends Controller
             'paket' => request('paket'),
             'ktp' => $ktpName,
             'fotoBangunan' => $fotoBangunanName,
+            'salesID' => auth()->id(),
         ]);
+
 
         if ($customer) {
             return response()->json(['message' => 'Create Customer Success'], 200);
@@ -90,18 +92,11 @@ class CustomerController extends Controller
         $pdf->loadHtml(view('pdf.customer', ['customers' => $dataArray])->render());
         $pdf->setPaper('A4', 'landscape');
         $pdf->render();
-        // $pdf->stream('customers.pdf');
 
         $pdfContent = $pdf->output();
         return Response::make($pdfContent, 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="customers.pdf"',
         ]);
-
-        // if ($customer) {
-        //     return response()->json($customer, 200);
-        // } else {
-        //     return response()->json(['message' => 'Get Customer Failed'], 404);
-        // }
     }
 }
